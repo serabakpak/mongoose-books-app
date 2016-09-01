@@ -72,6 +72,12 @@ app.post('/api/books', function (req, res) {
     image: req.body.image,
     releaseDate: req.body.releaseDate,
   });
+  newBook.save(function(err, book){
+    if (err) { return console.log("create error: " + err); }
+    console.log("created ", book.title);
+    res.json(book);
+  });
+});
 
 // this code will only add an author to a book if the author already exists
   db.Author.findOne({name: req.body.author}, function(err, author){
@@ -86,7 +92,7 @@ app.post('/api/books', function (req, res) {
     });
   });
 
-});
+
 
 // delete book
 app.delete('/api/books/:id', function (req, res) {
@@ -98,6 +104,14 @@ app.delete('/api/books/:id', function (req, res) {
     res.json(deletedBook);
   });
 });
+
+
+
+
+
+
+
+
 
 app.listen(process.env.PORT || 3000, function () {
   console.log('Example app listening at http://localhost:3000/');
