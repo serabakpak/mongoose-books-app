@@ -78,25 +78,43 @@ app.get('/', function (req, res) {
 
 // get all books - the new and improved way using a db
 app.get('/api/books', function (req, res) {
-  // send all books as JSON response
-  db.Book.find(function(err, books){
-    if (err) { return console.log("index error: " + err); }
+  db.Book.find(function(err, books) {
+    if (err) {
+      return console.log('index error: ' + err);
+    }cu
     res.json(books);
   });
 });
 
-
 // get one book
+// app.get('/api/books/:id', function (req, res) {
+//   // find one book by its id
+//   console.log('books show', req.params);
+//   for(var i=0; i < books.length; i++) {
+//     if (books[i]._id === req.params.id) {
+//       res.json(books[i]);
+//       break; // we found the right book, we can stop searching
+//     }
+//   }
+// });
+
 app.get('/api/books/:id', function (req, res) {
-  // find one book by its id
-  console.log('books show', req.params);
-  for(var i=0; i < books.length; i++) {
-    if (books[i]._id === req.params.id) {
-      res.json(books[i]);
-      break; // we found the right book, we can stop searching
+  
+  db.Book.findOne({_id: req.params.id}, function (err, foundBook) {
+    if (err) {
+      return console.log('index error: ' + err);
     }
-  }
+    console.log(foundBook)
+    res.json(foundBook);
+  });
 });
+
+
+
+
+
+
+
 
 // create new book
 app.post('/api/books', function (req, res) {
